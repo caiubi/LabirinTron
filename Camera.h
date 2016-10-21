@@ -11,6 +11,7 @@ class Camera
 		Camera();
 		void processKeyboardInput(GLFWwindow*, float deltaT);
 		void look();
+		void getEye(float *eye);
 };
 
 #endif

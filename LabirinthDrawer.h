@@ -6,13 +6,13 @@
 class LabirinthDrawer{
 
 	private:
-		int texture;
+		int textureCube, textureFc;
 		Labirinth *labirinth;
 		void drawCubeAt(int i, int j);
 		void drawFloorCeilAt(int i, int j, int fc);
 
 	public:
-		LabirinthDrawer(int texture, Labirinth *labirinth);
+		LabirinthDrawer(int textureCube, int textureFc, Labirinth *labirinth);
 		void draw();//int **wallMatrix, int alt, int larg);
 };
 

@@ -2,8 +2,9 @@
 #include "ShapeDrawer.h"
 #include "LabirinthDrawer.h"
 
-LabirinthDrawer::LabirinthDrawer(int texture, Labirinth *labirinth){
-	this->texture = texture;
+LabirinthDrawer::LabirinthDrawer(int textureCube, int textureFc, Labirinth *labirinth){
+	this->textureCube = textureCube;
+    this->textureFc = textureFc;
     this->labirinth = labirinth;
 }
 
@@ -22,7 +23,7 @@ void LabirinthDrawer::drawCubeAt(int i, int j){
 	glPushMatrix();
 	glTranslatef(i, 0, -j);
 
-	ShapeDrawer::cube(this->texture);
+	ShapeDrawer::cube(this->textureCube);
 
 	glPopMatrix();
 }
@@ -41,7 +42,7 @@ void LabirinthDrawer::drawFloorCeilAt(int i, int j, int fc){
 //    glRotatef(10, 1 , 0, 0);
 	glTranslatef(i, (fc?-2:fc) , -j);
 
-	ShapeDrawer::square(this->texture);
+	ShapeDrawer::square(this->textureFc);
 
 	glPopMatrix();
 
@@ -58,14 +59,15 @@ void LabirinthDrawer::draw(){//int **wallMatrix, int alt, int larg){
     {1,1,0,1,1},
     {1,1,0,1,1}};*/
     int i, j;
-    for(i = 1; i < 21; i++){
-        for(j = 1; j < 21; j++){
-            if(j < 20 && i < 20 && j > 1 && i > 1 ){
+    for(i = 0; i < 21; i++){
+        for(j = 0; j < 21; j++){
+            if(j < 20 && i < 20 && j > 0 && i > 0 ){
+
                 if(!this->labirinth->getBlockAt(i-1,j-1)){
-                    LabirinthDrawer::drawCubeAt(i+1,j+1);
+                    LabirinthDrawer::drawCubeAt(i,j);
                 }else{
-                    LabirinthDrawer::drawFloorCeilAt(i+1,j+1,0);
-                    LabirinthDrawer::drawFloorCeilAt(i+1,j+1,1);
+                    LabirinthDrawer::drawFloorCeilAt(i,j,0);
+                    LabirinthDrawer::drawFloorCeilAt(i,j,1);
 
                 }
 

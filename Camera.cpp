@@ -8,8 +8,8 @@ using namespace std;
 #include "Camera.h"
 
 Camera::Camera(){
-    fraction = 12.0f;
-    angleSpeed = 2.0;
+    fraction = 24.0f;
+    angleSpeed = 3.0;
 	angle=0.0;
 	lx=0.0f;
 	lz=-1.0f;
@@ -37,5 +37,11 @@ void Camera::processKeyboardInput(GLFWwindow* window, float deltaT){
 }
 
 void Camera::look(){
-	glLookAt(  x, 1.0f, z, x+lx, 1.0f,  z+lz, 0.0f, 1.0f,  0.0f);
+	glLookAt(x, 1.0f, z, x+lx, 1.0f,  z+lz, 0.0f, 1.0f,  0.0f);
+}
+
+void Camera::getEye(float *eye){
+	eye[0] = x;
+	eye[1] = 1.0f;
+	eye[2] = z;
 }

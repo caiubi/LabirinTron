@@ -38,7 +38,7 @@ void ShapeDrawer::square(int texture){
 	glTexCoordPointer(2, GL_FLOAT, 0, textureVertices);
 
     /* Send data : 24 vertices */
-	glDrawArrays(GL_LINE_LOOP, 0, 4);
+	glDrawArrays(GL_QUADS, 0, 4);
 
     /* Cleanup states */
 

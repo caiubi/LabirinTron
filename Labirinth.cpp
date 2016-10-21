@@ -1,6 +1,8 @@
 #include <cmath>
 #include <iostream>
 #include "Labirinth.h"
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 
