@@ -37,7 +37,7 @@ $ make clean
 ```
 
 ### Comandos:
-* Utilize as teclas **W, A, S, D** para mover o personagem.
+* Utilize as teclas **cima** e **baixo** para mover o personagem para frente e trás.
 * Utilize as setas **esquerda** e **direita** para mover a direção do personagem.
 * A partir de qualquer tela as teclas r ou esq podem ser pressionadas para reiniciar ou finalizar o jogo respectivamente.
 
