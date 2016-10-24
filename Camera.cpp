@@ -78,3 +78,7 @@ void Camera::getDirection(float *direction){
 	direction[1] = 0;
 	direction[2] = lz;
 }
+
+float Camera::getAngle(){
+	return this->angle;
+}

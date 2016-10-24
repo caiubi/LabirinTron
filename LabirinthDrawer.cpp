@@ -47,28 +47,29 @@ void LabirinthDrawer::drawFloorCeilAt(int i, int j, int fc){
 void LabirinthDrawer::draw(){//int **wallMatrix, int alt, int larg){
     glPushMatrix();
     glScalef(4,4,4);
-//    LabirinthDrawer::drawCubeAt(1,1);
 
-//    glTranslatef(0,0,10.0f);
-/*
-    int labirinth[5][5] = { {1,0,1,1,1},
-    {1,0,1,1,1},
-    {1,0,0,1,1},
-    {1,1,0,1,1},
-    {1,1,0,1,1}};*/
+   float matAmbAndDif[] = {1.0, 1.0, 1.0, 1.0};    // cor ambiente e difusa: branca
+
+   float corInicio[] = {0.5, 0.5, 1.0, 1.0};    // cor ambiente e difusa: verde
+   float corFim[] = {1.0, 0.5, 0.5, 1.0};    // cor ambiente e difusa: verde
+
+    // Definindo as propriedades do material
+
+
     int i, j;
     for(i = 0; i <= 21; i++){
         for(j = 0; j <= 21; j++){
-            if(i == 1 && j == 1){
-                glColor3f(0,0,1);
-            }else if(i == 20 && j == 20){
-                glColor3f(1,0,0);                
+            if(i < 2 && j < 2){
+                glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corInicio);
+            }else if(i > 19 && j > 19){
+                glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corFim);
             }else{
-                glColor3f(1,1,1);
+                glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
             }
             if(j <= 20 && i <= 20 && j > 0 && i > 0 ){
 
                 if(!this->labirinth->getBlockAt(i-1,j-1)){
+
                     LabirinthDrawer::drawCubeAt(i,j);
 //                    LabirinthDrawer::drawFloorCeilAt(i,j,1);
 
@@ -151,7 +152,7 @@ void LabirinthDrawer::drawMinimap(float *pos){
                 glPopMatrix();
             }
         }
-//        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 

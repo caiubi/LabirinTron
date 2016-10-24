@@ -16,6 +16,7 @@ class Camera
 		void look();
 		void getEye(float *eye);
 		void getDirection(float *direction);
+		float getAngle();
 };
 
 #endif
