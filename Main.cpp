@@ -19,6 +19,7 @@ LabirinthDrawer *labirinthDrawer;
 Labirinth *labirinth;
 double currentFrame, deltaTime, lastFrame, t = 0;
 bool rot = false;
+bool minimap = false;
 int testeura;
 
 GLfloat  lightPos[] = { 0.0f, 0.0f, 75.0f, 1.0f };
@@ -112,6 +113,9 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
         if(key == GLFW_KEY_R){
             rot = !rot;
         }
+        if(key == GLFW_KEY_M){
+            minimap = !minimap;
+        }
 /*        if(key == GLFW_KEY_B){
             bp = !bp;
         }*/
@@ -156,8 +160,10 @@ void display( GLFWwindow* window )
         glMatrixMode(GL_MODELVIEW_MATRIX);
 
 //        glPushMatrix();
-        camera->getEye(position);
-        labirinthDrawer->drawMinimap(position);
+        if(minimap){
+            camera->getEye(position);
+            labirinthDrawer->drawMinimap(position);
+        }
         camera->look();
 //        glTranslatef(0, 0, -5);
 //        ShapeDrawer::cube(testeura);

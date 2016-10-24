@@ -42,6 +42,7 @@ void Camera::processKeyboardInput(GLFWwindow* window, float deltaT){
 		lx = sin(angle);
 		lz = -cos(angle);  
 	}
+/*
 	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 		labirinthDrawer->inc(-inc,0,0);
 	}else if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
@@ -58,7 +59,8 @@ void Camera::processKeyboardInput(GLFWwindow* window, float deltaT){
 		labirinthDrawer->inc(0,0,-sp);
 	}else if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS){
 		labirinthDrawer->inc(0,0,sp);
-	}
+	}*/
+		
 }
 
 void Camera::look(){

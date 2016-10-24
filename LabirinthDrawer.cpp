@@ -10,9 +10,9 @@ LabirinthDrawer::LabirinthDrawer(int textureCube, int textureFc, Labirinth *labi
 	this->textureCube = textureCube;
     this->textureFc = textureFc;
     this->labirinth = labirinth;
-    mx = 16.6;
-    my = -9.4;
-    mspeed = 0.234;
+    mx = 17.7;
+    my = -9.3;
+    mspeed = 0.245;
 }
 
 void LabirinthDrawer::drawCubeAt(int i, int j){
@@ -57,11 +57,11 @@ void LabirinthDrawer::draw(){//int **wallMatrix, int alt, int larg){
     {1,1,0,1,1},
     {1,1,0,1,1}};*/
     int i, j;
-    for(i = 0; i < 21; i++){
-        for(j = 0; j < 21; j++){
+    for(i = 0; i <= 21; i++){
+        for(j = 0; j <= 21; j++){
             if(i == 1 && j == 1){
                 glColor3f(0,0,1);
-            }else if(i == 19 && j == 19){
+            }else if(i == 20 && j == 20){
                 glColor3f(1,0,0);                
             }else{
                 glColor3f(1,1,1);
@@ -116,18 +116,18 @@ void LabirinthDrawer::drawMinimap(float *pos){
     glPushMatrix();
         glDisable(GL_LIGHTING);
 
-        glTranslatef(1,0,-5);
+        glTranslatef(0.5,0,-2);
 
-        glScalef(0.05,0.05,0.05);
+        glScalef(0.02,0.02,0.02);
 
         glPushMatrix();
-        glRotatef(90, 1, 0, 0);
-        glRotatef(-90, 0, 1, 0);
+            glRotatef(90, 1, 0, 0);
+            glRotatef(-90, 0, 1, 0);
 
-        glTranslatef(mx,0,my);
-        glTranslatef(pos[0]*mspeed,pos[1]*mspeed,pos[2]*mspeed);
-
-        ShapeDrawer::circle(0,0, 1, 360);
+            glTranslatef(mx,0,my);
+            glTranslatef(pos[0]*mspeed,pos[1]*mspeed,pos[2]*mspeed);
+            glColor3f(1,0,1);
+            ShapeDrawer::circle(0,0, 0.5, 360);
         glPopMatrix();
 
         glRotatef(-90, 1, 0, 0);
@@ -138,6 +138,13 @@ void LabirinthDrawer::drawMinimap(float *pos){
             for(int j = 0; j < 20; j++){
                 glPushMatrix();
                 glTranslatef(((float)i)*size, 0, ((float)j)*size);
+                if(i == 0 && j == 0){
+                    glColor3f(0,0,1);
+                    ShapeDrawer::circle(0,0, 1, 360);                    
+                }else if(i == 19 && j == 19){
+                    glColor3f(1,0,0);
+                    ShapeDrawer::circle(0,0, 1, 360);                                        
+                }
                 if(!this->labirinth->getBlockAt(i,j)){
                     ShapeDrawer::square(-1);
                 }
