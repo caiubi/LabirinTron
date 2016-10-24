@@ -11,6 +11,6 @@ void glLookAt(GLdouble eyex, GLdouble eyey, GLdouble eyez, GLdouble centerx,
  GLdouble centery, GLdouble centerz, GLdouble upx, GLdouble upy,
  GLdouble upz);
 
-int carregaTextura(char *imagePath);
+int carregaTextura(string imagePath);
 
 #endif

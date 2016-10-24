@@ -73,9 +73,9 @@ void glLookAt(GLdouble eyex, GLdouble eyey, GLdouble eyez, GLdouble centerx,
     glTranslated(-eyex, -eyey, -eyez);
 }
 
-int carregaTextura(char *imagePath){
+int carregaTextura(string imagePath){
     int texture = SOIL_load_OGL_texture(
-        imagePath,
+        imagePath.c_str(),
         SOIL_LOAD_AUTO,
         SOIL_CREATE_NEW_ID,
         SOIL_FLAG_INVERT_Y

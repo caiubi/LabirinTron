@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-GLFWwindow* initWindow(char *title, const int resX, const int resY, GLFWkeyfun keyFunc)
+GLFWwindow* initWindow(string title, const int resX, const int resY, GLFWkeyfun keyFunc)
 {
     if(!glfwInit())
     {
@@ -13,7 +13,7 @@ GLFWwindow* initWindow(char *title, const int resX, const int resY, GLFWkeyfun k
     glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 
     // Open a window and create its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(resX, resY, title, NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(resX, resY, title.c_str(), NULL, NULL);
 
     if(window == NULL)
     {
@@ -33,7 +33,6 @@ GLFWwindow* initWindow(char *title, const int resX, const int resY, GLFWkeyfun k
     glDepthFunc(GL_LEQUAL);
     glDisable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    glEnable(GL_LIGHTING);
 
     int n;
     glGetIntegerv(GL_MAX_LIGHTS, &n);

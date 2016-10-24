@@ -111,5 +111,10 @@ void Labirinth::print(){
 }
 
 int Labirinth::getBlockAt(int i, int j){
-	return spots[i][j].opened;	
+	if(i < 0 || i >= alt)
+		return 0;
+	else if(j < 0 || j >= larg)
+		return 0;
+	else
+		return spots[i][j].opened;	
 }

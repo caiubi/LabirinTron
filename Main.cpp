@@ -18,34 +18,89 @@ Camera *camera;
 LabirinthDrawer *labirinthDrawer;
 Labirinth *labirinth;
 double currentFrame, deltaTime, lastFrame, t = 0;
+bool rot = false;
+int testeura;
 
-static bool light0Ligada = 1;   // Luz branca ligada?
+GLfloat  lightPos[] = { 0.0f, 0.0f, 75.0f, 1.0f };
+GLfloat  specular[] = { 1.0f, 1.0f, 1.0f, 1.0f};
+GLfloat  specref[] =  { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat  ambientLight[] = { 0.5f, 0.5f, 0.5f, 1.0f};
+GLfloat  spotDir[] = { 0.0f, 0.0f, -1.0f };
 
 void configuraLuz(){
-   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat mat_shininess[] = { 50.0 };
-   GLfloat light_position[] = { 0.0, 0.0, 0.0, 1.0 };
+        glFrontFace(GL_CCW);       // Counterclockwise polygons face out
+//        glEnable(GL_CULL_FACE);    // Do not try to display the back sides
 
-   glShadeModel (GL_SMOOTH);
+        // Enable lighting
+        glEnable(GL_LIGHTING);
 
-   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+        // Set up and enable light 0
+        // Supply a slight ambient light so the objects can be seen
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
 
-   glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
+        // The light is composed of just diffuse and specular components
+        glLightfv(GL_LIGHT0,GL_DIFFUSE,ambientLight);
+        glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
+        glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
+
+        // Specific spot effects
+        // Cut off angle is 60 degrees
+        glLightf(GL_LIGHT0,GL_SPOT_CUTOFF,30.0f);
+
+        // Fairly shiny spot
+        glLightf(GL_LIGHT0,GL_SPOT_EXPONENT,100.0f);
+
+        // Enable this light in particular
+        glEnable(GL_LIGHT0);
+
+        // Enable color tracking
+        glEnable(GL_COLOR_MATERIAL);
+
+        // Set Material properties to follow glColor values
+        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
+        // All materials hereafter have full specular reflectivity
+        // with a high shine
+        glMaterialfv(GL_FRONT, GL_SPECULAR,specref);
+        glMateriali(GL_FRONT, GL_SHININESS,128);
 }
 
 void setLuz(){    
+/*
 
-   glPushMatrix();
-   GLfloat light_position[] = {0, 1, 0.217664, 1.0 };
-/*   camera->getEye(light_position);
-   cout << light_position[0] << ", " << light_position[1] << ", " << light_position[2] << endl;
-*/
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+   GLfloat light_position[] = {0, 0, 0, 1};//1, 0.217664, 1.0 };
+//   camera->getEye(light_position);
+//   cout << light_position[0] << ", " << light_position[1] << ", " << light_position[2] << endl;
 
-   glPopMatrix();
+//   glTranslatef(10,-10,-10);
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);*/
+
+/*    camera->getEye(lightPos);
+    camera->getDirection(spotDir);*/
+
+    GLfloat light_position[] = {0, 0, 0, 1};
+    GLfloat spot_dir[] = {0, 0, -1};
+            glLightfv(GL_LIGHT0,GL_POSITION,light_position);//lightPos);
+        glLightfv(GL_LIGHT0,GL_SPOT_DIRECTION,spot_dir);
+
+        // Draw a red cone to enclose the light source
+//        glRGB(255,0,0);
+
+        // Translate origin to move the cone out to where the light
+        // is positioned.
+        glPushMatrix();
+        
+        glDisable(GL_LIGHTING);
+//        glTranslatef(lightPos[0],lightPos[1],lightPos[2]);
+        glScaled(0.5, 0.5, 0.5);
+        ShapeDrawer::cube(testeura);
+
+//   cout << lightPos[0] << ", " << lightPos[1] << ", " << lightPos[2] << endl;
+        
+        
+        glEnable(GL_LIGHTING);
+
+        glPopMatrix();
 
 }
 
@@ -54,7 +109,12 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
     if(action == GLFW_PRESS){
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
-            
+        if(key == GLFW_KEY_R){
+            rot = !rot;
+        }
+/*        if(key == GLFW_KEY_B){
+            bp = !bp;
+        }*/
     }
 }
 
@@ -63,6 +123,12 @@ void display( GLFWwindow* window )
     float ratio;
     static float angle = 0;
     glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
+
+    float position[] = {0,0,0};
+    int pi, pj;
+
+//    configuraLuz();
+
     while(!glfwWindowShouldClose(window))
     {
         currentFrame = glfwGetTime();
@@ -84,29 +150,36 @@ void display( GLFWwindow* window )
 
         glMatrixMode(GL_PROJECTION_MATRIX);
         glLoadIdentity();
-//        glFrustum(-ratio, ratio, -1.0f, 1.0f, 1.0f, 100.0f);
+
         glPerspective(45, ratio, 1.0f, 200.0f);
 
         glMatrixMode(GL_MODELVIEW_MATRIX);
 
-        setLuz();
-
-
+//        glPushMatrix();
+        camera->getEye(position);
+        labirinthDrawer->drawMinimap(position);
         camera->look();
+//        glTranslatef(0, 0, -5);
+//        ShapeDrawer::cube(testeura);
+//        setLuz();
+//        glTranslatef(0, 0, 5);
+//        glPopMatrix();
+//        texture = carregaTextura("bg3.png");
+//        texture2 = carregaTextura("bg.png");
 
-//        glRotatef(90, 1, 0, 0);
-       glTranslatef(72,0,-36);
+//        cout << labirinthDrawer->collidesWith(position) << endl;
+//        cout << pi << ", " << pj << endl;
+
+//       cout << position[0] << ", " << position[1] << ", " << position[2] << endl;
+
+//       glRotatef(90, 1, 0 ,0 );
        labirinthDrawer->draw();
-  //      glLookAt(  x, 1.0f, z, x+lx, 1.0f,  z+lz, 0.0f, 1.0f,  0.0f);
 
-//        desenhaPersonagem();
-//        desenhaCenario();
 
         camera->processKeyboardInput(window, deltaTime);   
 
         // Update Screen
         glfwSwapBuffers(window);
-
         // Check for any input, or window movement
         glfwPollEvents();
     }
@@ -115,17 +188,19 @@ void display( GLFWwindow* window )
 int main(int argc, char** argv)
 {
     GLuint texture, texture2;
-    camera = new Camera();
     GLFWwindow* window = initWindow("Labirinth", 1024, 620, controls);
     if( NULL != window )
     {
-        texture = carregaTextura("bg.jpg");
-        texture2 = carregaTextura("bg2.jpg");
+        texture = carregaTextura("bg3.png");
+        texture2 = carregaTextura("bg.png");
+//        texture = testeura = carregaTextura("bg.jpg");
+//        texture2 = carregaTextura("bg2.jpg");
         labirinth = new Labirinth(20,20);
         labirinth->generate();
         labirinth->print();
         labirinthDrawer = new LabirinthDrawer(texture, texture2, labirinth);
-        configuraLuz();
+        camera = new Camera(-72, 40, labirinthDrawer);
+//        configuraLuz();
         display( window );
     }
     glfwDestroyWindow(window);
