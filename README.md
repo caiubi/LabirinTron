@@ -3,7 +3,7 @@
 ## LabirinTron
 Projeto desenvolvido para a disciplina de Computação Gráfica no CEFET-MG, com o objetivo de simular um labirinto em 3D utilizando os conhecimentos de **OpenGL** e **C++**. O tema escolhido para ilustrar o projeto foi baseado no filme Tron Legacy.
 
-![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/ImageResources/Print1.png)
+![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/Print1.png)
 
 ### Instalação e execução
 
@@ -37,11 +37,11 @@ $ make clean
 * Utilize as teclas **cima** e **baixo** para mover o personagem para frente e trás.
 * Utilize as setas **esquerda** e **direita** para mover a direção do personagem.
 * Utilize a tecla **M** para habilitar um modo de trapaça do programa, dessa forma, é possível visualizar um Minimapa com a representação do labirinto visto de cima.
-![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/ImageResources/Print2.png)
+![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/Print2.png)
 * Para alternar entre os modos de visualização em primeira e terceira pessoa, pressione a tecla **3**.
 * A partir de qualquer tela a tecla **esq** pode ser pressionada para finalizar o programa.
 
-![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/ImageResources/Print3.png)
+![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/Print3.png)
 
 #### Em breve:
 * Como instalar as dependências em MacOS
