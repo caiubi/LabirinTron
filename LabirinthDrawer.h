@@ -19,6 +19,7 @@ class LabirinthDrawer{
 		bool collidesWith(float *vec);
 		void getPositionIndex(int *i, int *j, float *vec);
 		void drawMinimap(float *pos);
+		bool endsIn(float *vec);
 		void inc(float mx, float my, float mspeed);
 };
 

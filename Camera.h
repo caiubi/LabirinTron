@@ -2,16 +2,19 @@
 #define CAMERA_H
 
 #include "LabirinthDrawer.h"
+#include "Character.h"
 
 class Camera
 {	
 	private:
-		float angle, angleSpeed, fraction;// actual vector representing the camera's direction
-		float lx,lz;// XZ position of the camera
+		float angle, angleSpeed, fraction;
+		float lx,lz;
 		float x,z;
+		float initialX, initialZ;
 		LabirinthDrawer *labirinthDrawer;
+		Character *character;
 	public:
-		Camera(float,float, LabirinthDrawer *labirinthDrawer);
+		Camera(float,float, LabirinthDrawer *labirinthDrawer, Character *character);
 		void processKeyboardInput(GLFWwindow*, float deltaT);
 		void look();
 		void getEye(float *eye);

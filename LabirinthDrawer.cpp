@@ -10,8 +10,8 @@ LabirinthDrawer::LabirinthDrawer(int textureCube, int textureFc, Labirinth *labi
 	this->textureCube = textureCube;
     this->textureFc = textureFc;
     this->labirinth = labirinth;
-    mx = 17.7;
-    my = -9.3;
+    mx = 17.7; //Valores calibrados
+    my = -9.3; //Valores calibrados
     mspeed = 0.245;
 }
 
@@ -21,12 +21,12 @@ void LabirinthDrawer::drawCubeAt(int i, int j){
     getIndexPosition(i, j, position);
 
 
-	glPushMatrix();
-	glTranslatef(position[0], position[1], position[2]);
+    glPushMatrix();
+    glTranslatef(position[0], position[1], position[2]);
 
-	ShapeDrawer::cube(this->textureCube);
+    ShapeDrawer::cube(this->textureCube);
 
-	glPopMatrix();
+    glPopMatrix();
 }
 void LabirinthDrawer::drawFloorCeilAt(int i, int j, int fc){
 
@@ -39,9 +39,9 @@ void LabirinthDrawer::drawFloorCeilAt(int i, int j, int fc){
     glTranslatef(position[0], (fc?-2:fc), position[2]);
 
 
-	ShapeDrawer::square(this->textureFc);
+    ShapeDrawer::square(this->textureFc);
 
-	glPopMatrix();
+    glPopMatrix();
 
 }
 void LabirinthDrawer::draw(){//int **wallMatrix, int alt, int larg){
@@ -56,36 +56,36 @@ void LabirinthDrawer::draw(){//int **wallMatrix, int alt, int larg){
     // Definindo as propriedades do material
 
 
-    int i, j;
-    for(i = 0; i <= 21; i++){
-        for(j = 0; j <= 21; j++){
-            if(i < 2 && j < 2){
-                glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corInicio);
-            }else if(i > 19 && j > 19){
-                glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corFim);
-            }else{
-                glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
-            }
-            if(j <= 20 && i <= 20 && j > 0 && i > 0 ){
+   int i, j;
+   for(i = 0; i <= 21; i++){
+    for(j = 0; j <= 21; j++){
+        if(i < 2 && j < 2){
+            glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corInicio);
+        }else if(i > 19 && j > 19){
+            glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corFim);
+        }else{
+            glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
+        }
+        if(j <= 20 && i <= 20 && j > 0 && i > 0 ){
 
-                if(!this->labirinth->getBlockAt(i-1,j-1)){
+            if(!this->labirinth->getBlockAt(i-1,j-1)){
 
-                    LabirinthDrawer::drawCubeAt(i,j);
+                LabirinthDrawer::drawCubeAt(i,j);
 //                    LabirinthDrawer::drawFloorCeilAt(i,j,1);
 
-                }else{
-                    LabirinthDrawer::drawFloorCeilAt(i,j,0);
-                    LabirinthDrawer::drawFloorCeilAt(i,j,1);
-
-                }
-
             }else{
-                LabirinthDrawer::drawCubeAt(i,j);
+                LabirinthDrawer::drawFloorCeilAt(i,j,0);
+                LabirinthDrawer::drawFloorCeilAt(i,j,1);
+
             }
+
+        }else{
+            LabirinthDrawer::drawCubeAt(i,j);
         }
     }
+}
 
-    glPopMatrix();
+glPopMatrix();
 }
 
 
@@ -115,44 +115,44 @@ void LabirinthDrawer::getPositionIndex(int *i, int *j, float *vec3){
 void LabirinthDrawer::drawMinimap(float *pos){
     float size = 2;
     glPushMatrix();
-        glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
 
-        glTranslatef(0.5,0,-2);
+    glTranslatef(0.5,0,-2);
 
-        glScalef(0.02,0.02,0.02);
+    glScalef(0.02,0.02,0.02);
 
-        glPushMatrix();
-            glRotatef(90, 1, 0, 0);
-            glRotatef(-90, 0, 1, 0);
+    glPushMatrix();
+    glRotatef(90, 1, 0, 0);
+    glRotatef(-90, 0, 1, 0);
 
-            glTranslatef(mx,0,my);
-            glTranslatef(pos[0]*mspeed,pos[1]*mspeed,pos[2]*mspeed);
-            glColor3f(1,0,1);
-            ShapeDrawer::circle(0,0, 0.5, 360);
-        glPopMatrix();
+    glTranslatef(mx,0,my);
+    glTranslatef(pos[0]*mspeed,pos[1]*mspeed,pos[2]*mspeed);
+    glColor3f(1,0,1);
+    ShapeDrawer::circle(0,0, 0.5, 360);
+    glPopMatrix();
 
-        glRotatef(-90, 1, 0, 0);
-        glRotatef(90, 0, 1, 0);
+    glRotatef(-90, 1, 0, 0);
+    glRotatef(90, 0, 1, 0);
 
 
-        for(int i = 0; i < 20; i++){
-            for(int j = 0; j < 20; j++){
-                glPushMatrix();
-                glTranslatef(((float)i)*size, 0, ((float)j)*size);
-                if(i == 0 && j == 0){
-                    glColor3f(0,0,1);
-                    ShapeDrawer::circle(0,0, 1, 360);                    
-                }else if(i == 19 && j == 19){
-                    glColor3f(1,0,0);
-                    ShapeDrawer::circle(0,0, 1, 360);                                        
-                }
-                if(!this->labirinth->getBlockAt(i,j)){
-                    ShapeDrawer::square(-1);
-                }
-                glPopMatrix();
+    for(int i = 0; i < 20; i++){
+        for(int j = 0; j < 20; j++){
+            glPushMatrix();
+            glTranslatef(((float)i)*size, 0, ((float)j)*size);
+            if(i == 0 && j == 0){
+                glColor3f(0,0,1);
+                ShapeDrawer::circle(0,0, 1, 360);                    
+            }else if(i == 19 && j == 19){
+                glColor3f(1,0,0);
+                ShapeDrawer::circle(0,0, 1, 360);                                        
             }
+            if(!this->labirinth->getBlockAt(i,j)){
+                ShapeDrawer::square(-1);
+            }
+            glPopMatrix();
         }
-        glEnable(GL_LIGHTING);
+    }
+    glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 
@@ -172,26 +172,34 @@ bool LabirinthDrawer::collidesWith(float *vec){
             zColl = (position[2]-side < vec[2] && position[2]+side > vec[2]);
 
             if(xColl && zColl && !this->labirinth->getBlockAt(i-1,j-1)){
-/*                cout << "ij: ";
-                cout << i << ", " << j << endl;
-                cout << vec[0] << ", " << vec[1] << ", " << vec[2] << endl;
-                cout << position[0] << ", " << position[1] << ", " << position[2] << endl;
-
-                cout << "maoe" << endl << endl;*/
                 return true;
             }
         }
     }
-/*    int pi, pj;
-    getPositionIndex(&pi, &pj, vec);
-    if(pi-1 < 0 || pj-1 < 0){
-        return true;
-    }else{
-        return (!this->labirinth->getBlockAt(pi-1,pj-1));
-    }*/
     return false;
 }
 
+bool LabirinthDrawer::endsIn(float *vec){
+    float position[] = {0,0,0};
+    float side = 5.0f;
+    bool xColl = false, zColl = false;
+    getIndexPosition(20, 20, position);
+    position[0] = position[0]*4;
+    position[1] = position[1]*4;
+    position[2] = position[2]*4;
+
+
+    xColl = (position[0]-side < vec[0] && position[0]+side > vec[0]);
+    zColl = (position[2]-side < vec[2] && position[2]+side > vec[2]);
+
+    if(xColl && zColl){
+        return true;
+    }
+    return false;
+
+}
+
+//Debug para calcular os valores do minimapa
 void LabirinthDrawer::inc(float mx, float my, float mspeed){
     this->mx +=mx;
     this->my +=my;

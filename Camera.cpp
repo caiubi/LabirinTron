@@ -7,15 +7,16 @@ using namespace std;
 #include "glUtils.h"
 #include "Camera.h"
 
-Camera::Camera(float x, float z, LabirinthDrawer *labirinthDrawer){
+Camera::Camera(float x, float z, LabirinthDrawer *labirinthDrawer, Character *character){
     fraction = 24.0f;
     angleSpeed = 3.0;
 	angle=0.0;
 	lx=0.0f;
 	lz=-1.0f;
 	this->labirinthDrawer = labirinthDrawer;
-	this->x = x;//0.0f;
-	this->z = z;//5.0f;
+	this->character = character;
+	this->initialX = this->x = x;//0.0f;
+	this->initialZ = this->z = z;//5.0f;
 }
 
 void Camera::processKeyboardInput(GLFWwindow* window, float deltaT){
@@ -25,12 +26,14 @@ void Camera::processKeyboardInput(GLFWwindow* window, float deltaT){
 	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
 		if(!labirinthDrawer->collidesWith(up)){
 			x += lx * fraction*deltaT;			
-			z += lz * fraction*deltaT;		
+			z += lz * fraction*deltaT;	
+			character->updateFrame(deltaT);	
 		}
 	}else if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
 		if(!labirinthDrawer->collidesWith(down)){
 			x -= lx * fraction*deltaT;
 			z -= lz * fraction*deltaT;
+			character->updateFrame(-deltaT);	
 		}
 	}
 	if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
@@ -42,7 +45,12 @@ void Camera::processKeyboardInput(GLFWwindow* window, float deltaT){
 		lx = sin(angle);
 		lz = -cos(angle);  
 	}
-/*
+	getEye(up);
+	if(labirinthDrawer->endsIn(up)){
+		this->x = this->initialX;
+		this->z = this->initialZ;
+	}
+/* //DEBUG para calibrar os valores do minimapa
 	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 		labirinthDrawer->inc(-inc,0,0);
 	}else if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){

@@ -11,31 +11,32 @@ using namespace std;
 #include "LabirinthDrawer.h"
 #include "Camera.h"
 #include "Labirinth.h"
+#include "Character.h"
 
 
 
 Camera *camera;
 LabirinthDrawer *labirinthDrawer;
 Labirinth *labirinth;
+Character *character;
 double currentFrame, deltaTime, lastFrame, t = 0;
-bool rot = false;
+bool thirdPerson = false;
 bool minimap = false;
-int testeura;
+
+int aim;
 float spin = 0;
+
 
 void configuraLuz(){
  glShadeModel (GL_SMOOTH);
  glEnable(GL_LIGHTING);
  glEnable(GL_LIGHT0);
-
-
 }
 
 void setLuz(){    
     GLfloat position[] = { 0.0, 0.0, -3, 1.0 };
 
     glPushMatrix ();
-//        glRotated ((GLdouble) 50*glfwGetTime(), 1.0, 0.0, 0.0);
     glTranslatef (0.0, 0.0, position[2]);
 
     glPushMatrix ();
@@ -47,7 +48,7 @@ void setLuz(){
 
     glPushMatrix();
     glScaled(0.1,0.1,0.1);
-    ShapeDrawer::cube(testeura);
+    ShapeDrawer::cube(aim);
     glPopMatrix();
 
     glEnable (GL_LIGHTING);
@@ -59,8 +60,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
     if(action == GLFW_PRESS){
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
-        if(key == GLFW_KEY_R){
-            rot = !rot;
+        if(key == GLFW_KEY_3){
+            thirdPerson = !thirdPerson;
         }
         if(key == GLFW_KEY_M){
             minimap = !minimap;
@@ -115,57 +116,41 @@ void display( GLFWwindow* window )
 
         setLuz();
 
-//        ShapeDrawer::cube(testeura);
+        if(thirdPerson){
+            character->draw();
+        }
+
         camera->look();
-//        labirinthDrawer->draw();
 
-
-/*
-        glRotated ((GLdouble) -50*glfwGetTime(), 0.0, 1.0, 0.0);
-        glScaled(0.5,0.5,0.5);
-        glTranslatef(2,0,0);
-        ShapeDrawer::cube(testeura);
-        glTranslatef(-4,0,0);
-        ShapeDrawer::cube(testeura);
-//    glutSolidCube(1);
-        glPopMatrix ();*/
-
-
-//        glPushMatrix();
-//        camera->look();
-
-//       cout << position[0] << ", " << position[1] << ", " << position[2] << endl;
-
-//       glRotatef(90, 1, 0 ,0 );
         labirinthDrawer->draw();
 
 
 
         camera->processKeyboardInput(window, deltaTime);   
-        // Update Screen
+
         glfwSwapBuffers(window);
-        // Check for any input, or window movement
+
         glfwPollEvents();
     }
 }
 
 int main(int argc, char** argv)
 {
-    GLuint texture, texture2;
+    GLuint texture, texture2, texturePlayer;
     GLFWwindow* window = initWindow("Labirinth", 1024, 620, controls);
     if( NULL != window )
     {
         glfwWindowHint(GLFW_REFRESH_RATE, 60);
-        texture = testeura = carregaTextura("bg3.png");
+        texture = aim = carregaTextura("bg3.png");
         texture2 = carregaTextura("bg.png");
-//        texture = testeura = carregaTextura("bg3.png");
-//        texture2 = carregaTextura("bg2.jpg");
+        texturePlayer = carregaTextura("bgPLayer.png");
+
         labirinth = new Labirinth(20,20);
         labirinth->generate();
         labirinth->print();
+        character = new Character(texturePlayer);
         labirinthDrawer = new LabirinthDrawer(texture, texture2, labirinth);
-        camera = new Camera(-72, 40, labirinthDrawer);
-//        configuraLuz();
+        camera = new Camera(-72, 40, labirinthDrawer, character);
         display( window );
     }
     glfwDestroyWindow(window);
