@@ -34,14 +34,20 @@ $ make clean
 ```
 
 ### Comandos:
-* Utilize as teclas **cima** e **baixo** para mover o personagem para frente e trás.
-* Utilize as setas **esquerda** e **direita** para mover a direção do personagem.
-* Utilize a tecla **M** para habilitar um modo de trapaça do programa, dessa forma, é possível visualizar um Minimapa com a representação do labirinto visto de cima.
+* Utilize as teclas <kbd>&uarr;</kbd> e <kbd>&darr;</kbd> para mover o personagem para frente e trás.
+* Utilize as setas <kbd>&larr;</kbd> e <kbd>&rarr;</kbd> para mover a direção do personagem.
+* Utilize a tecla <kbd>M</kbd> para habilitar um modo de trapaça do programa, dessa forma, é possível visualizar um Minimapa com a representação do labirinto visto de cima.
 ![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/Print2.png)
-* Para alternar entre os modos de visualização em primeira e terceira pessoa, pressione a tecla **3**.
-* A partir de qualquer tela a tecla **esq** pode ser pressionada para finalizar o programa.
+* Para alternar entre os modos de visualização em primeira e terceira pessoa, pressione a tecla <kbd>3</kbd>.
+* A partir de qualquer tela a tecla <kbd>esc</kbd> pode ser pressionada para finalizar o programa.
 
 ![alt Demo](https://raw.githubusercontent.com/caiubi/LabirinTron/master/Print3.png)
+
+### Extras
+* Mapa procedural
+* Movimento da câmera dinâmico
+* Reshape mantêm razão de aspecto
+* Modo Cheat (Minimapa deixa intuitivo o caminho)
 
 #### Em breve:
 * Como instalar as dependências em MacOS
